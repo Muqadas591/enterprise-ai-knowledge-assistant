@@ -1,0 +1,27 @@
+Metadata-Version: 2.4
+Name: enterprise-ai-knowledge-assistant
+Version: 0.1.0
+Summary: Production-oriented enterprise RAG knowledge assistant
+Requires-Python: >=3.11
+License-File: LICENSE
+Requires-Dist: fastapi
+Requires-Dist: uvicorn[standard]
+Requires-Dist: sqlalchemy
+Requires-Dist: psycopg[binary]
+Requires-Dist: pgvector
+Requires-Dist: pydantic
+Requires-Dist: pydantic-settings
+Requires-Dist: python-multipart
+Requires-Dist: python-jose[cryptography]
+Requires-Dist: passlib[bcrypt]
+Requires-Dist: pymupdf
+Requires-Dist: python-docx
+Requires-Dist: sentence-transformers
+Requires-Dist: numpy
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: pytest-asyncio; extra == "dev"
+Requires-Dist: httpx; extra == "dev"
+Requires-Dist: ruff; extra == "dev"
+Requires-Dist: mypy; extra == "dev"
+Dynamic: license-file
