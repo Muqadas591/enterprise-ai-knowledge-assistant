@@ -17,8 +17,8 @@ dependencies = [
     "passlib[bcrypt]",
     "pymupdf",
     "python-docx",
-    "sentence-transformers",
-    "numpy",
+    "alembic",
+    "email-validator",
 ]
 
 [project.optional-dependencies]
@@ -30,8 +30,10 @@ dev = [
     "mypy",
 ]
 
-[tool.setuptools.packages.find]
-include = ["app*"]
+ml = [
+    "sentence-transformers",
+    "numpy",
+]
 
 [tool.ruff]
 line-length = 100

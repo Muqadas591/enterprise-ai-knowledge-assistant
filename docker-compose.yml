@@ -16,5 +16,27 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: enterprise-rag-backend
+    restart: unless-stopped
+
+    environment:
+      DATABASE_URL: postgresql+psycopg://postgres:postgres@postgres:5432/ragdb
+      JWT_SECRET_KEY: development-secret
+      APP_ENV: development
+      DEBUG: "true"
+
+    ports:
+      - "8000:8000"
+
+    depends_on:
+      - postgres
+
+
 volumes:
   postgres_data:

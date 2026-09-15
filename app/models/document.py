@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import DateTime, Integer, String, Text
+from sqlalchemy import DateTime, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.database import Base
@@ -19,12 +19,14 @@ class Document(Base):
     file_type: Mapped[str] = mapped_column(
         String(50),
         nullable=False,
+        index=True,
     )
 
     status: Mapped[str] = mapped_column(
         String(50),
         default="uploaded",
         nullable=False,
+        index=True,
     )
 
     document_metadata: Mapped[str | None] = mapped_column(

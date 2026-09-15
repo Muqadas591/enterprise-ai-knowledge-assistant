@@ -1,23 +1,16 @@
-import sys
-from pathlib import Path
-
-from sqlalchemy import text
-
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
-from app.core.database import Base, engine
-from app.models import Document, DocumentChunk, User
+from alembic import command
+from alembic.config import Config
 
 
 def init_database() -> None:
-    with engine.begin() as connection:
-        connection.execute(
-            text("CREATE EXTENSION IF NOT EXISTS vector")
-        )
+    alembic_config = Config("alembic.ini")
 
-    Base.metadata.create_all(bind=engine)
+    command.upgrade(
+        alembic_config,
+        "head",
+    )
 
-    print("Database initialized successfully.")
+    print("Database migrations applied successfully.")
 
 
 if __name__ == "__main__":

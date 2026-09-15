@@ -1,3 +1,4 @@
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -7,6 +8,13 @@ class Settings(BaseSettings):
     DEBUG: bool = True
 
     DATABASE_URL: str
+
+    CORS_ORIGINS: list[str] = Field(
+    default_factory=lambda: [
+        "http://localhost:3000",
+        "http://localhost:5173",
+    ]
+)
 
     JWT_SECRET_KEY: str
     JWT_ALGORITHM: str = "HS256"
