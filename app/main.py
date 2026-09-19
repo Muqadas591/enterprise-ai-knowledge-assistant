@@ -18,10 +18,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title=settings.APP_NAME,
     version="0.1.0",
-    description=(
-        "Production-oriented API for an enterprise "
-        "AI knowledge assistant."
-    ),
+    description=("Production-oriented API for an enterprise AI knowledge assistant."),
     docs_url="/docs",
     redoc_url="/redoc",
 )
@@ -34,6 +31,15 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.get("/")
+def root() -> dict[str, str]:
+    return {
+        "message": "Enterprise AI Knowledge Assistant API",
+        "docs": "/docs",
+    }
+
 
 app.include_router(
     documents.router,

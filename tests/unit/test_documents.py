@@ -10,6 +10,4 @@ def test_documents_endpoint() -> None:
 
     assert response.status_code == 200
 
-    assert response.json() == {
-        "message": "Document API initialized."
-    }
+    assert response.json() == {"message": "Document API initialized."}

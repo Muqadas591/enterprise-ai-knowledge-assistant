@@ -10,12 +10,12 @@ class Settings(BaseSettings):
     DATABASE_URL: str
 
     CORS_ORIGINS: list[str] = Field(
-    default_factory=lambda: [
-        "http://localhost:3000",
-        "http://localhost:5173",
-    ]
-)
-
+        default_factory=lambda: [
+            "http://localhost:3000",
+            "http://localhost:5173",
+        ]
+    )
+    UPLOAD_DIRECTORY: str = "data/uploads"
     JWT_SECRET_KEY: str
     JWT_ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
@@ -40,6 +40,12 @@ class Settings(BaseSettings):
         case_sensitive=True,
         extra="ignore",
     )
+
+    ALLOWED_FILE_EXTENSIONS: list[str] = [
+        ".pdf",
+        ".docx",
+        ".txt",
+    ]
 
 
 settings = Settings()

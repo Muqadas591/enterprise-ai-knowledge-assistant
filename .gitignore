@@ -27,6 +27,8 @@ Thumbs.db
 # Data
 data/*
 !data/.gitkeep
+!data/sample/
+!data/sample/*
 
 # Uploaded files
 uploads/

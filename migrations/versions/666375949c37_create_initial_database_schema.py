@@ -1,14 +1,15 @@
 """create initial database schema
 
 Revision ID: 666375949c37
-Revises: 
+Revises:
 Create Date: 2026-09-14 19:46:11.237770
 
 """
+
 from collections.abc import Sequence
 
 # revision identifiers, used by Alembic.
-revision: str = '666375949c37'
+revision: str = "666375949c37"
 down_revision: str | Sequence[str] | None = None
 branch_labels: str | Sequence[str] | None = None
 depends_on: str | Sequence[str] | None = None

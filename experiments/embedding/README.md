@@ -1,4 +1,3 @@
-
 # Embedding Model Experiments
 
 This directory documents embedding model evaluation

@@ -38,5 +38,9 @@ ml = [
 [tool.ruff]
 line-length = 100
 
+[tool.ruff.lint]
+extend-per-file-ignores = {"app/api/routes/*.py" = ["B008"]}
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["."]

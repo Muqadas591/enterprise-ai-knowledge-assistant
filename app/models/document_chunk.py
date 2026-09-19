@@ -1,5 +1,5 @@
 from pgvector.sqlalchemy import Vector
-from sqlalchemy import ForeignKey, Integer, Text
+from sqlalchemy import ForeignKey, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.database import Base
@@ -29,6 +29,16 @@ class DocumentChunk(Base):
     )
 
     page_number: Mapped[int | None] = mapped_column(
+        Integer,
+        nullable=True,
+    )
+
+    section_title: Mapped[str | None] = mapped_column(
+        String(500),
+        nullable=True,
+    )
+
+    token_count: Mapped[int | None] = mapped_column(
         Integer,
         nullable=True,
     )
