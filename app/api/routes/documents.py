@@ -1,12 +1,15 @@
+import logging
 from pathlib import Path
 
-from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
+from fastapi import APIRouter, Depends, File, Form, HTTPException, Response, UploadFile, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from app.api.dependencies import get_current_user
 from app.api.deps import get_db
 from app.core.config import settings
 from app.models.document import Document
+from app.models.user import User
 from app.schemas.document import DocumentResponse
 from app.services.document_service import DocumentService
 from app.utils.file_utils import (
@@ -20,6 +23,8 @@ router = APIRouter(
     tags=["Documents"],
 )
 
+logger = logging.getLogger(__name__)
+
 
 @router.get(
     "",
@@ -27,6 +32,7 @@ router = APIRouter(
 )
 def list_documents(
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ) -> list[Document]:
 
     statement = select(Document).order_by(Document.created_at.desc())
@@ -41,7 +47,11 @@ def list_documents(
 )
 async def upload_document(
     file: UploadFile = File(...),
+    document_category: str | None = Form(default=None),
+    document_type: str | None = Form(default=None),
+    department: str | None = Form(default=None),
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ) -> Document:
 
     if not file.filename:
@@ -103,6 +113,9 @@ async def upload_document(
         file_size=len(content),
         checksum=checksum,
         status="uploaded",
+        document_category=document_category,
+        document_type=document_type,
+        department=department,
     )
 
     db.add(document)
@@ -116,6 +129,7 @@ async def upload_document(
         )
 
     except Exception as exc:
+        logger.exception("Document processing failed for document %s", document.id)
         raise HTTPException(
             status_code=500,
             detail="Document processing failed.",
@@ -131,6 +145,7 @@ async def upload_document(
 def get_document(
     document_id: int,
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ) -> Document:
 
     document = db.get(
@@ -145,3 +160,33 @@ def get_document(
         )
 
     return document
+
+
+@router.delete(
+    "/{document_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+)
+def delete_document(
+    document_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+) -> Response:
+    document = db.get(Document, document_id)
+
+    if document is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Document not found.",
+        )
+
+    file_path = Path(settings.UPLOAD_DIRECTORY) / document.stored_filename
+
+    db.delete(document)
+    db.commit()
+
+    try:
+        file_path.unlink(missing_ok=True)
+    except OSError:
+        logger.exception("Unable to remove stored file for document %s", document_id)
+
+    return Response(status_code=status.HTTP_204_NO_CONTENT)

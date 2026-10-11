@@ -1,50 +1,56 @@
 from pgvector.sqlalchemy import Vector
-from sqlalchemy import ForeignKey, Integer, String, Text
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import Column, ForeignKey, Integer, String, Text
+from sqlalchemy.dialects.postgresql import TSVECTOR
+from sqlalchemy.orm import relationship
 
+from app.core.config import settings
 from app.core.database import Base
-
-EMBEDDING_DIMENSION = 384
 
 
 class DocumentChunk(Base):
     __tablename__ = "document_chunks"
 
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id = Column(Integer, primary_key=True, index=True)
 
-    document_id: Mapped[int] = mapped_column(
+    document_id = Column(
+        Integer,
         ForeignKey("documents.id", ondelete="CASCADE"),
         nullable=False,
         index=True,
     )
 
-    chunk_index: Mapped[int] = mapped_column(
+    chunk_index = Column(
         Integer,
         nullable=False,
     )
 
-    content: Mapped[str] = mapped_column(
+    content = Column(
         Text,
         nullable=False,
     )
 
-    page_number: Mapped[int | None] = mapped_column(
+    page_number = Column(
         Integer,
         nullable=True,
     )
 
-    section_title: Mapped[str | None] = mapped_column(
-        String(500),
+    section_title = Column(
+        String(255),
         nullable=True,
     )
 
-    token_count: Mapped[int | None] = mapped_column(
+    token_count = Column(
         Integer,
+        nullable=False,
+    )
+
+    embedding = Column(
+        Vector(settings.EMBEDDING_DIMENSION),
         nullable=True,
     )
 
-    embedding = mapped_column(
-        Vector(EMBEDDING_DIMENSION),
+    search_vector = Column(
+        TSVECTOR,
         nullable=True,
     )
 

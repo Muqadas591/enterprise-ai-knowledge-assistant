@@ -7,8 +7,7 @@ WORKDIR /app
 
 COPY pyproject.toml .
 
-RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir .
+RUN pip install --no-cache-dir ".[ml]"
 
 COPY app ./app
 COPY migrations ./migrations

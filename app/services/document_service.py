@@ -5,6 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.models.document import Document
+from app.services.chunk_embedding_service import ChunkEmbeddingService
 from app.services.ingestion_service import IngestionService
 
 
@@ -36,6 +37,14 @@ class DocumentService:
         try:
             extracted = self.ingestion_service.extract(file_path)
 
+            chunk_embedding_service = ChunkEmbeddingService()
+            chunks = chunk_embedding_service.create_chunks(
+                pages=extracted.pages,
+                document_id=document.id,
+            )
+            self.db.add_all(chunks)
+            self.db.flush()
+
             document.status = "processed"
 
             document.page_count = extracted.metadata.get("page_count")
@@ -54,6 +63,7 @@ class DocumentService:
             return document
 
         except Exception as exc:
+            self.db.rollback()
             document.status = "failed"
             document.error_message = str(exc)
 

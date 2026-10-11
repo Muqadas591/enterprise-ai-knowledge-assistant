@@ -10,6 +10,9 @@ class DocumentResponse(BaseModel):
     file_size: int
     status: str
     page_count: int | None
+    document_category: str | None = None
+    document_type: str | None = None
+    department: str | None = None
     created_at: datetime
 
     model_config = ConfigDict(

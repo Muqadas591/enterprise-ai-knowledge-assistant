@@ -2,14 +2,14 @@ import json
 from pathlib import Path
 
 from app.core.config import settings
-from app.rag.chunking.text_chunker import TextChunker
+from app.rag.chunking.text_chunker import TokenTextChunker
 from app.rag.loaders import get_loader
 from app.rag.loaders.base import ExtractedDocument
 
 
 class IngestionService:
     def __init__(self) -> None:
-        self.chunker = TextChunker(
+        self.chunker = TokenTextChunker(
             chunk_size=settings.CHUNK_SIZE,
             chunk_overlap=settings.CHUNK_OVERLAP,
         )

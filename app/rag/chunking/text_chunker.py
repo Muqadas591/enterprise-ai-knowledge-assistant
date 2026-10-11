@@ -1,60 +1,97 @@
 from dataclasses import dataclass
 
+import tiktoken
+
+from app.core.config import settings
+
 
 @dataclass
 class TextChunk:
     content: str
     chunk_index: int
-    page_number: int | None
+    token_count: int
+    page_number: int | None = None
+    section_title: str | None = None
 
 
-class TextChunker:
+class TokenTextChunker:
+    """
+    Token-aware text chunker for RAG pipelines.
+
+    Chunks are created according to tokenizer token counts rather
+    than approximate word counts.
+    """
+
     def __init__(
         self,
-        chunk_size: int = 800,
-        chunk_overlap: int = 120,
+        chunk_size: int | None = None,
+        chunk_overlap: int | None = None,
     ):
-        if chunk_overlap >= chunk_size:
-            raise ValueError("Chunk overlap must be smaller than chunk size.")
+        self.chunk_size = chunk_size or settings.CHUNK_SIZE
+        self.chunk_overlap = chunk_overlap or settings.CHUNK_OVERLAP
 
-        self.chunk_size = chunk_size
-        self.chunk_overlap = chunk_overlap
+        if self.chunk_overlap >= self.chunk_size:
+            raise ValueError("chunk_overlap must be smaller than chunk_size")
 
-    def chunk_text(
-        self,
-        text: str,
-        page_number: int | None = None,
-    ) -> list[TextChunk]:
+        self.tokenizer = tiktoken.get_encoding("cl100k_base")
 
-        words = text.split()
+    def count_tokens(self, text: str) -> int:
+        """Return the number of tokens in text."""
+        return len(self.tokenizer.encode(text))
+
+    def split_text(self, text: str) -> list[str]:
+        """
+        Split text into overlapping token-based chunks.
+        """
+
+        if not text or not text.strip():
+            return []
+
+        tokens = self.tokenizer.encode(text)
+
+        chunks = []
+
+        start = 0
+
+        while start < len(tokens):
+            end = min(start + self.chunk_size, len(tokens))
+
+            chunk_tokens = tokens[start:end]
+            chunk_text = self.tokenizer.decode(chunk_tokens).strip()
+
+            if chunk_text:
+                chunks.append(chunk_text)
+
+            if end >= len(tokens):
+                break
+
+            start = end - self.chunk_overlap
+
+        return chunks
+
+    def chunk_pages(self, pages) -> list[TextChunk]:
+        """
+        Create chunks while preserving page metadata.
+        """
 
         chunks: list[TextChunk] = []
 
-        start = 0
         chunk_index = 0
 
-        while start < len(words):
-            end = min(
-                start + self.chunk_size,
-                len(words),
-            )
+        for page in pages:
+            page_chunks = self.split_text(page.text)
 
-            content = " ".join(words[start:end]).strip()
-
-            if content:
+            for content in page_chunks:
                 chunks.append(
                     TextChunk(
                         content=content,
                         chunk_index=chunk_index,
-                        page_number=page_number,
+                        token_count=self.count_tokens(content),
+                        page_number=page.page_number,
+                        section_title=None,
                     )
                 )
 
                 chunk_index += 1
-
-            if end >= len(words):
-                break
-
-            start = end - self.chunk_overlap
 
         return chunks

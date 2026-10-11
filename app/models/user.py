@@ -23,9 +23,14 @@ class User(Base):
         nullable=False,
     )
 
+    full_name: Mapped[str | None] = mapped_column(
+        String(255),
+        nullable=True,
+    )
+
     role: Mapped[str] = mapped_column(
         String(50),
-        default="employee",
+        default="user",
         nullable=False,
     )
 

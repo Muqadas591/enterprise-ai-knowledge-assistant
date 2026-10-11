@@ -1,29 +1,39 @@
-import pytest
-
-from app.rag.chunking.text_chunker import TextChunker
+from app.rag.chunking.text_chunker import TokenTextChunker
 
 
-def test_chunker_creates_multiple_chunks() -> None:
+def test_token_chunker_returns_chunks():
+    chunker = TokenTextChunker(
+        chunk_size=50,
+        chunk_overlap=10,
+    )
 
-    text = " ".join(f"word{i}" for i in range(1000))
+    text = "This is a test sentence. " * 100
 
-    chunker = TextChunker(
+    chunks = chunker.split_text(text)
+
+    assert len(chunks) > 1
+    assert all(chunk.strip() for chunk in chunks)
+
+
+def test_token_count():
+    chunker = TokenTextChunker(
         chunk_size=100,
         chunk_overlap=20,
     )
 
-    chunks = chunker.chunk_text(text)
+    text = "This is a simple test."
 
-    assert len(chunks) > 1
+    token_count = chunker.count_tokens(text)
 
-    assert chunks[0].chunk_index == 0
-    assert chunks[1].chunk_index == 1
+    assert token_count > 0
 
 
-def test_chunker_rejects_invalid_overlap() -> None:
-
-    with pytest.raises(ValueError):
-        TextChunker(
-            chunk_size=100,
-            chunk_overlap=100,
+def test_invalid_overlap():
+    try:
+        TokenTextChunker(
+            chunk_size=50,
+            chunk_overlap=50,
         )
+        assert False
+    except ValueError:
+        assert True

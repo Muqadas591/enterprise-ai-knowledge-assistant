@@ -15,10 +15,14 @@ dependencies = [
     "python-multipart",
     "python-jose[cryptography]",
     "passlib[bcrypt]",
+    "bcrypt<5",
     "pymupdf",
     "python-docx",
+    "tiktoken",
     "alembic",
     "email-validator",
+    "openai",
+    'google-genai',
 ]
 
 [project.optional-dependencies]
@@ -39,7 +43,11 @@ ml = [
 line-length = 100
 
 [tool.ruff.lint]
-extend-per-file-ignores = {"app/api/routes/*.py" = ["B008"]}
+
+[tool.ruff.lint.per-file-ignores]
+"app/api/routes/*.py" = ["B008"]
+"app/api/dependencies.py" = ["B008"]
+"app/core/security/roles.py" = ["B008"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

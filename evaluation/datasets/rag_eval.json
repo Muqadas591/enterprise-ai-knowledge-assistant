@@ -1,0 +1,42 @@
+[
+  {
+    "question": "How many annual leave days are employees entitled to?",
+    "expected_sources": [
+      {
+        "document": "leave_policy.txt",
+        "chunk_index": 0
+      }
+    ],
+    "expected_answer": "Employees are entitled to 24 annual leave days per calendar year."
+  },
+  {
+    "question": "Where should annual leave requests be submitted?",
+    "expected_sources": [
+      {
+        "document": "leave_policy.txt",
+        "chunk_index": 0
+      }
+    ],
+    "expected_answer": "Annual leave requests must be submitted through the employee portal."
+  },
+  {
+    "question": "How should employees update emergency contact information?",
+    "expected_sources": [
+      {
+        "document": "hr_policy.txt",
+        "chunk_index": 0
+      }
+    ],
+    "expected_answer": "Employees should keep contact and emergency information current in the employee portal."
+  },
+  {
+    "question": "What exact identifier is required for VPN access?",
+    "expected_sources": [
+      {
+        "document": "it_security_policy.txt",
+        "chunk_index": 0
+      }
+    ],
+    "expected_answer": "The answer must be based only on the retrieved IT security policy context."
+  }
+]

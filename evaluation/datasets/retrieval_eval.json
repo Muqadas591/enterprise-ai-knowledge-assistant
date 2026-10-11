@@ -1,0 +1,102 @@
+[
+  {
+    "query": "How many annual leave days are available to permanent employees?",
+    "relevant_document": "leave_policy.txt",
+    "relevant_chunk_indices": [0]
+  },
+  {
+    "query": "What is the annual leave entitlement?",
+    "relevant_document": "leave_policy.txt",
+    "relevant_chunk_indices": [0]
+  },
+  {
+    "query": "How do employees request annual leave?",
+    "relevant_document": "leave_policy.txt",
+    "relevant_chunk_indices": [0]
+  },
+  {
+    "query": "Who approves an employee leave request?",
+    "relevant_document": "leave_policy.txt",
+    "relevant_chunk_indices": [0]
+  },
+  {
+    "query": "Can unused annual leave be carried forward?",
+    "relevant_document": "leave_policy.txt",
+    "relevant_chunk_indices": [0]
+  },
+  {
+    "query": "What is the company's password policy?",
+    "relevant_document": "it_security_policy.txt",
+    "relevant_chunk_indices": [0]
+  },
+  {
+    "query": "How often should an employee change their password?",
+    "relevant_document": "it_security_policy.txt",
+    "relevant_chunk_indices": [0]
+  },
+  {
+    "query": "What should I do if I forget my password?",
+    "relevant_document": "it_security_policy.txt",
+    "relevant_chunk_indices": [0]
+  },
+  {
+    "query": "What are the rules for secure company accounts?",
+    "relevant_document": "it_security_policy.txt",
+    "relevant_chunk_indices": [0]
+  },
+  {
+    "query": "How should employees protect sensitive IT systems?",
+    "relevant_document": "it_security_policy.txt",
+    "relevant_chunk_indices": [0]
+  },
+  {
+    "query": "What expenses can employees claim?",
+    "relevant_document": "expense_policy.txt",
+    "relevant_chunk_indices": [0]
+  },
+  {
+    "query": "Which travel costs are reimbursable?",
+    "relevant_document": "expense_policy.txt",
+    "relevant_chunk_indices": [0]
+  },
+  {
+    "query": "How do I submit an expense claim?",
+    "relevant_document": "expense_policy.txt",
+    "relevant_chunk_indices": [0]
+  },
+  {
+    "query": "What receipts are needed for expenses?",
+    "relevant_document": "expense_policy.txt",
+    "relevant_chunk_indices": [0]
+  },
+  {
+    "query": "Who approves employee expenses?",
+    "relevant_document": "expense_policy.txt",
+    "relevant_chunk_indices": [0]
+  },
+  {
+    "query": "What is the employee medical leave policy?",
+    "relevant_document": "hr_policy.txt",
+    "relevant_chunk_indices": [0]
+  },
+  {
+    "query": "How should employees update emergency contact information?",
+    "relevant_document": "hr_policy.txt",
+    "relevant_chunk_indices": [0]
+  },
+  {
+    "query": "Where can employees update their contact details?",
+    "relevant_document": "hr_policy.txt",
+    "relevant_chunk_indices": [0]
+  },
+  {
+    "query": "How often should managers provide feedback?",
+    "relevant_document": "hr_policy.txt",
+    "relevant_chunk_indices": [0]
+  },
+  {
+    "query": "Who handles workplace policy questions?",
+    "relevant_document": "hr_policy.txt",
+    "relevant_chunk_indices": [0]
+  }
+]
